@@ -9,3 +9,8 @@ Thomas BROSSIER
 - création d'une application
 - ajout d'une première page
 - petit challenge (bonjour Cricri)
+
+# TP1
+- Migrations
+- Exercez-vous : 002 - 003 - 004 - 005 - 006
+- shell Python
