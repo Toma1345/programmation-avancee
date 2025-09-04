@@ -13,5 +13,5 @@ Thomas BROSSIER
 # TP1
 - Migrations
 - Exercez-vous : 002 - 003 - 004 - 005 - 006
-- shell Python
+- shell Python : insertion des données dans Produits, Catégories et Statut
 - Petit Challenge
