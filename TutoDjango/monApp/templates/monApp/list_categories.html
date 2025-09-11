@@ -1,0 +1,11 @@
+{% extends 'monApp/base.html' %}
+{% block contenu %}
+    <h1>Hello mes catégories !</h1>
+    <p>Mes catégories sont : </p>
+    <ul>
+        {% for cat in cats %}
+            <li>{{ cat.nomCat | lower }}</li>
+        {% endfor %}
+    </ul>
+    <p>J'ai {{ cats | length }} catégories d'enregistrées.</p>
+{% endblock %}

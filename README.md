@@ -25,4 +25,12 @@ Thomas BROSSIER
     * prix unitaire prod (prix TTC - page 8)
 - Django Debug ToolBar
     * Consultation des différents urls proposé dans le TD
-    
+
+# TP2
+- "Bonjour %s !" (GET)
+- Templates
+    * list_categories, list_rayons, list_statut, list_produits, about, contact
+- Héritage de template
+- Style
+- Début recherche au sujet de Bootstrap
+    * https://www.w3schools.com/django/django_add_bootstrap5.php

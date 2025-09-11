@@ -1,0 +1,11 @@
+{% extends 'monApp/base.html' %}
+{% block contenu %}
+    <h1>Hello les Rayons !</h1>
+    <p>Les rayons sont : </p>
+    <ul>
+        {% for r in rayons %}
+            <li>{{ r.nomRayon }}</li>
+        {% endfor %}
+    </ul>
+    <p>Il y a {{ rayons | length }} rayons dans le magasin.</p>
+{% endblock %}
