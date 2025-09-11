@@ -22,4 +22,7 @@ Thomas BROSSIER
 - Personnalisation de l'interface admin
     * list_display
     * fichier models.py déjà OK
-    * prix unitaire prod
+    * prix unitaire prod (prix TTC - page 8)
+- Django Debug ToolBar
+    * Consultation des différents urls proposé dans le TD
+    

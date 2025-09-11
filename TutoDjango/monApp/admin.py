@@ -26,7 +26,7 @@ set_Produit_offline.short_description = "Mettre hors ligne"
 
 class ProduitAdmin(admin.ModelAdmin):
     model = Produit
-    list_display = ['refProd', 'intituleProd','prixUnitaireProd', 'dateFab', 'categorie', 'statut', 'prixUnitaireProd']
+    list_display = ['refProd', 'intituleProd','prixUnitaireProd', 'dateFab', 'categorie', 'statut', 'prixTTCProd']
     list_editable = ['intituleProd', 'prixUnitaireProd']
     radio_fields = {"statut": admin.VERTICAL}
     search_fields = ('intituleProd', 'dateFab')
@@ -37,7 +37,6 @@ class ProduitAdmin(admin.ModelAdmin):
 
     def prixTTCProd(self, instance):
         return (instance.prixUnitaireProd * Decimal('1.20')).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-    prixTTCProd.short_description = "Prix TTC"
     prixTTCProd.short_description = "Prix TTC"
     prixTTCProd.admin_order_field = "prixUnitaireProd"
 
