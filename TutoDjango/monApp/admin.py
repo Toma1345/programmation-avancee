@@ -1,6 +1,6 @@
 from decimal import ROUND_HALF_UP, Decimal
 from django.contrib import admin
-from .models import Produit, Contenir, Statut, Rayon, Categorie
+from .models import Produit, Statut, Rayon, Categorie #, Contenir
 
 class ProduitFilter(admin.SimpleListFilter):
     title = 'filtre produit'
