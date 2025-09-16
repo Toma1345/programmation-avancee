@@ -1,12 +1,32 @@
 {% extends 'monApp/base.html' %}
+
+{% block menu %}
+    <h1>Liste des produits</h1>
+{% endblock %}
+
 {% block contenu %}
-    <h1>Hello mes produits !</h1>
-    <p>Mes produits sont : </p>
-    <ul>
+    <table class="table">
+    <thead>
+        <th>Id</th>
+        <th>Nom produit</th>
+        <th>Prix unitaire</th>
+        <th>Date fabrication</th>
+        <th>Catégorie</th>
+        <th>Statut</th>
+    </thead>
+    <tbody>
         {% for prdt in prdts %}
-            <li>{{ prdt.intituleProd | upper }}</li>
+            <tr>
+                <td>{{ prdt.refProd }} </td>
+                <td>{{ prdt.intituleProd }} </td>
+                <td>{{ prdt.prixUnitaireProd }} </td>
+                <td>{{ prdt.dateFab }} </td>
+                <td>{{ prdt.categorie }} </td>
+                <td>{{ prdt.statut }} </td>
+            </tr>
         {% endfor %}
-    </ul>
+    </tbody>
+    </table>
     <p>J'ai
         {% if prdts|length < 5 %}
             peu de
