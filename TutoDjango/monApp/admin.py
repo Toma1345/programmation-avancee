@@ -52,4 +52,4 @@ admin.site.register(Produit, ProduitAdmin)
 admin.site.register(Categorie, CategorieAdmin)
 admin.site.register(Statut)
 admin.site.register(Rayon)
-admin.site.register(Contenir)
+# admin.site.register(Contenir) # retirer car dans le modèle utilisation de CompositePrimaryKey

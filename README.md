@@ -34,3 +34,8 @@ Thomas BROSSIER
 - Style
 - Début recherche au sujet de Bootstrap
     * https://www.w3schools.com/django/django_add_bootstrap5.php
+- Installation de bootstrap5 + rajout menu et nav + mise en forme en table des listes
+
+**Mise à jour du `models.py`**
+
+# TD3
