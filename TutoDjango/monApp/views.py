@@ -47,3 +47,15 @@ def ListStatuts(request):
 def ListRayons(request):
     rayons = Rayon.objects.all()
     return render(request, 'monApp/list_rayons.html', {'rayons':rayons})
+
+class HomeView(TemplateView):
+    template_name = "monApp/page_home.html"
+
+    def post(self, request, **kwargs):
+        return render(request, self.template_name)
+    
+class AboutView(TemplateView):
+    template_name = "monApp/page_home.html"
+
+    def get_context_date(self, **kwargs):
+        context = super(AboutView, self).get_context_date(**kwargs)
