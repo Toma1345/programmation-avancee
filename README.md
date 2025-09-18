@@ -39,3 +39,9 @@ Thomas BROSSIER
 **Mise à jour du `models.py`**
 
 # TD3
+- TemplateView : Home, About, Contact, Home/<param>
+- ListView
+- DetailView
+- Lien vers détail du produit
+- Liste et Détail View pour Statut, Catégorie et Rayon
+- Lien vers la vue en liste dans la navbar pour chaque
