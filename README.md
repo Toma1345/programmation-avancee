@@ -45,3 +45,4 @@ Thomas BROSSIER
 - Lien vers détail du produit
 - Liste et Détail View pour Statut, Catégorie et Rayon
 - Lien vers la vue en liste dans la navbar pour chaque
+- Login / Register View + page html : login et register

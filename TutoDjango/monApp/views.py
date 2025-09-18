@@ -2,6 +2,9 @@ from django.shortcuts import render
 # from django.http import HttpResponse, HttpResponseNotFound, Http404, JsonResponse
 from django.views.generic import *
 from monApp.models import *
+from django.contrib.auth import *
+from django.contrib.auth.views import *
+from django.contrib.auth.models import *
 
 # def home(request, param=None):
 #     #print(dir(request))
@@ -41,13 +44,13 @@ from monApp.models import *
 #     cats = Categorie.objects.all()
 #     return render(request, 'monApp/list_categories.html', {'cats':cats})
 
-def ListStatuts(request):
-    stats = Statut.objects.all()
-    return render(request, 'monApp/list_statut.html', {'stats':stats})
+# def ListStatuts(request):
+#     stats = Statut.objects.all()
+#     return render(request, 'monApp/list_statut.html', {'stats':stats})
 
-def ListRayons(request):
-    rayons = Rayon.objects.all()
-    return render(request, 'monApp/list_rayons.html', {'rayons':rayons})
+# def ListRayons(request):
+#     rayons = Rayon.objects.all()
+#     return render(request, 'monApp/list_rayons.html', {'rayons':rayons})
 
 class HomeView(TemplateView):
     template_name = "monApp/page_home.html"
@@ -169,3 +172,29 @@ class StatutDetailView(DetailView):
         context = super(StatutDetailView, self).get_context_data(**kwargs)
         context['titremenu'] = "Détail du statut"
         return context
+    
+class ConnectView(LoginView):
+    template_name = "monApp/page_login.html"
+
+    def post(self, request, **kwargs):
+        lgn = request.POST.get('username', False)
+        pswrd = request.POST.get('password', False)
+        user = authenticate(username=lgn, password=pswrd)
+        if user is not None and user.is_active:
+            login(request, user)
+            return render(request, 'monApp/page_home.html', {'param': lgn, 'message': "You're connected"})
+        else:
+            return render(request, 'monApp/page_register.html')
+        
+class RegisterView(TemplateView):
+    template_name = 'monApp/page_register.html'
+    def post(self, request, **kwargs):
+        username = request.POST.get('username', False)
+        mail = request.POST.get('mail', False)
+        password = request.POST.get('password', False)
+        user = User.objects.create_user(username, mail, password)
+        user.save()
+        if user is not None and user.is_active:
+            return render(request, 'monApp/page_login.html')
+        else:
+            return render(request, 'monApp/page_register.html')
