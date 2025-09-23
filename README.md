@@ -63,4 +63,4 @@
 - Formulaire de contact avec :  
   - Envoi d’email  
   - Redirection vers une page de confirmation "email-sent" 
-- Mise à jour de la navbar pour afficher les options Contact / A propos
+- Mise à jour de la navbar pour afficher les options Contact / A propos / Accueil
