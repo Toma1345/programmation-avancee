@@ -5,11 +5,13 @@ from django.views.generic import *
 urlpatterns = [
     # path("home/", views.accueil, name="home"),
     # path("home", TemplateViews.as_view(template_name="monApp/page_home.html")),
-    path("home/", views.HomeView.as_view()),
+    path("home/", views.HomeView.as_view(), name="home"),
     # path("about/", views.about, name="about"),
     path("about/", views.AboutView.as_view(), name="about"),
     # path("contact/", views.contact, name="contact"),
-    path("contact/", views.ContactView.as_view(), name="contact"),
+    # path("contact/", views.ContactView.as_view(), name="contact"),
+    path("contact/", views.ContactView, name="contact"),
+    path("email-sent/", views.EmailSentView.as_view(), name="email-sent"),
     # path("home/<param>", views.accueil, name="accueil"),
     path("home/<param>", views.HomeView.as_view(), name="accueil"),
     # path("produits/", views.ListProduits, name="produits"),
@@ -26,5 +28,5 @@ urlpatterns = [
     path("rayon/<pk>/", views.RayonDetailView.as_view(), name="dtl_rayon"),
     path('login/', views.ConnectView.as_view(), name='login'),
     path('register/', views.RegisterView.as_view(), name='register'),
-    # path('logout/', views.DisconnectView.as_view(), name='logout'),
+    path('logout/', views.DisconnectView.as_view(), name='logout'),
 ]
