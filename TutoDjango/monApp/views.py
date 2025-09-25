@@ -1,13 +1,14 @@
 from django.shortcuts import render
-# from django.http import HttpResponse, HttpResponseNotFound, Http404, JsonResponse
+from django.http import HttpResponse, HttpResponseNotFound, Http404, JsonResponse
 from django.views.generic import *
-from monApp.forms import ContactUsForm
+from monApp.forms import *
 from monApp.models import *
 from django.contrib.auth import *
 from django.contrib.auth.views import *
 from django.contrib.auth.models import *
 from django.core.mail import send_mail
 from django.shortcuts import redirect
+from django.forms import BaseModelForm
 
 # def home(request, param=None):
 #     #print(dir(request))
@@ -210,7 +211,7 @@ class DisconnectView(TemplateView):
     
 def ContactView(request):
     titreh1 = "Bienvenu sur la page Contact !"
-    if request.method=='POST':
+    if request.method == 'POST':
         form = ContactUsForm(request.POST)
         if form.is_valid():
             send_mail(
@@ -229,3 +230,49 @@ class EmailSentView(TemplateView):
 
     def get(self, request, **kwargs):
         return render(request, self.template_name)
+    
+# def ProduitCreate(request):
+#     if request.method == 'POST':
+#         form = ProduitForm(request.POST)
+#         if form.is_valid():
+#             prdt = form.save()
+#             return redirect('dtl_prdt', prdt.refProd)
+#     else:
+#         form = ProduitForm()
+#     return render(request, "monApp/create_produit.html", {'form':form})
+
+class ProduitCreateView(CreateView):
+    model = Produit
+    form_class=ProduitForm
+    template_name = "monApp/create_produit.html"
+    
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        prdt = form.save()
+        return redirect('dtl_prdt', prdt.refProd)
+    
+# def ProduitUpdate(request, id):
+#     prdt = Produit.objects.get(id=id)
+#     if request.method == 'POST':
+#         form = ProduitForm(request.POST, instance=prdt)
+#         if form.is_valid():
+#             # mettre à jour le produit existant dans la base de données
+#             form.save()
+#             # rediriger vers la page détaillée du produit que nous venons de mettre à jour
+#             return redirect('dtl_prdt', prdt.refProd)
+#     else:
+#         form = ProduitForm(instance=prdt)
+#     return render(request,'monApp/update_produit.html', {'form': form})
+    
+class ProduitUpdateView(UpdateView):
+    model = Produit
+    form_class = ProduitForm
+    template_name = "monApp/update_produit.html"
+
+    def form_valid(self, form:BaseModelForm) -> HttpResponse:
+        prdt = form.save()
+        return redirect('dtl_prdt', prdt.refProd)
+        
+class ProductDeleteView(DeleteView):
+    model = Produit
+    template_name = "monApp/delete_produit.html"
+    success_url = reverse_lazy('lst_prdts')

@@ -64,3 +64,14 @@
   - Envoi d’email  
   - Redirection vers une page de confirmation "email-sent" 
 - Mise à jour de la navbar pour afficher les options Contact / A propos / Accueil
+
+## TP3
+- Formulaire de création d'un produit
+- Adaptation du formulaire avec des champs en moins `exclude`
+- Validation côté client et côté serveur
+- Formulaire avec la vue générique de création Django `CreateView`
+- Page de modification d'un produit
+- Fin de séance :
+   - TP3 - Page 10
+   * créer la page html pour delete 
+   * Création de la vue de suppression à terminer (import  `reverse_lazy` ***?***)
