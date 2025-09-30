@@ -77,3 +77,8 @@
 - Page de création, modification et suppression d'un statut
 
 ## TD4
+(- Mise en forme correct des boutons de création, modification et suppression + bouton retour à la liste)
+- Nombre de produits par catégorie et nouvelle mise en forme dans détail catégorie affichant les produits associés à la catégorie
+- Nombre de produits par statuts et nouvelle mise en forme dans détail statut affichant les produits associés au statut
+
+- Reprendre page 4 : "Compliquons la suite"

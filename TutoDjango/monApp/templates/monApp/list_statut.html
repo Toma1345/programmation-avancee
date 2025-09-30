@@ -5,20 +5,29 @@
 {% endblock %}
 
 {% block contenu %}
-    <a href="{% url 'crt-sts' %}">Créer un nouveau statut</a>
     <table class="table">
-    <thead>
-        <th>Id</th>
-        <th>Libelle</th>
-    </thead>
-    <tbody>
-        {% for stat in stats %}
-            <tr>
-                <td>{{ stat.idStatut }} </td>
-                <td><a href="{% url 'dtl_statut' stat.idStatut %}">{{ stat.libelle }}</a></td>
-            </tr>
-        {% endfor %}
-    </tbody>
+        <thead>
+            <th>Id</th>
+            <th>Libelle</th>
+            <th>Nombre de produits</th>
+            <th>Actions</th>
+        </thead>
+        <tbody>
+            {% for stat in stats %}
+                <tr>
+                    <td>{{ stat.idStatut }} </td>
+                    <td><a href="{% url 'dtl_statut' stat.idStatut %}">{{ stat.libelle }}</a></td>
+                    <td>{{ stat.nb_produits }}</td>
+                    <td>
+                        <a href="{% url 'dtl_statut' stat.idStatut %}" class="btn btn-primary mt-2">Détails</a>
+                        <a href="{% url 'sts-chng' stat.idStatut %}" class="btn btn-warning mt-2">Modifier</a>
+                        <a href="{% url 'sup_sts' stat.idStatut %}" class="btn btn-danger mt-2">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
+    <a href="{% url 'crt-sts' %}" class="btn btn-success mt-2">Créer un nouveau statut</a>
+    <hr>
     <p>J'ai {{ stats | length }} statuts d'enregistrés.</p>
 {% endblock %}

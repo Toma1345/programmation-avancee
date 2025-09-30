@@ -6,14 +6,15 @@
 
 {% block contenu %}
     <h2>{{ prdt.intituleProd }}</h2>
-    <a href="{% url 'prdt-chng' prdt.refProd %}">Modifier</a>
-    <a href="{% url 'sup_prdt' prdt.refProd %}">Supprimer</a>
     <ul>
         <li>Référence produit : {{ prdt.refProd }} </li>
+        <li>Nom Produit : {{ prdt.intituleProd }}</li>
         <li>Prix unitaire HT : {{ prdt.prixUnitaireProd }} </li>
         <li>Date de fabrication : {{ prdt.dateFab }} </li>
         <li>Catégorie : {{ prdt.categorie }} </li>
         <li>Statut : {{ prdt.statut }}</li>
     </ul>
-    <a href="{% url 'lst_prdts' %}">Retour à la liste des produits</a>
+    <a href="{% url 'prdt-chng' prdt.refProd %}" class="btn btn-warning mt-2">Modifier</a>
+    <a href="{% url 'sup_prdt' prdt.refProd %}" class="btn btn-danger mt-2">Supprimer</a>
+    <a href="{% url 'lst_prdts' %}" class="btn btn-info mt-2">Retour à la liste des produits</a>
 {% endblock %}
