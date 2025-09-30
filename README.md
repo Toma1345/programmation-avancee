@@ -71,7 +71,9 @@
 - Validation côté client et côté serveur
 - Formulaire avec la vue générique de création Django `CreateView`
 - Page de modification d'un produit
-- Fin de séance :
-   - TP3 - Page 10
-   * créer la page html pour delete 
-   * Création de la vue de suppression à terminer (import  `reverse_lazy` ***?***)
+- Page de suppression d'un produit
+- Page de création, modification et suppression d'une catégorie
+- Page de création, modification et suppression d'un rayon
+- Page de création, modification et suppression d'un statut
+
+## TD4

@@ -6,6 +6,8 @@
 
 {% block contenu %}
     <h2>{{ stat.libelle }}</h2>
+    <a href="{% url 'sts-chng' stat.idStatut %}">Modifier</a>
+    <a href="{% url 'sup_sts' stat.idStatut %}">Supprimer</a>
     <ul>
         <li>Référence statut : {{ stat.idStatut }} </li>
     </ul>

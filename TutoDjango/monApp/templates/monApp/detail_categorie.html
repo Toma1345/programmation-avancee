@@ -6,6 +6,8 @@
 
 {% block contenu %}
     <h2>{{ cat.nomCat }}</h2>
+    <a href="{% url 'cat-chng' cat.idCat %}">Modifier</a>
+    <a href="{% url 'sup_cat' cat.idCat %}">Supprimer</a>
     <ul>
         <li>Référence catégorie : {{ cat.idCat }} </li>
     </ul>

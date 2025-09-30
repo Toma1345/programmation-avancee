@@ -6,6 +6,8 @@
 
 {% block contenu %}
     <h2>{{ rayon.nomRayon }}</h2>
+    <a href="{% url 'ray-chng' rayon.idRayon %}">Modifier</a>
+    <a href="{% url 'sup_ray' rayon.idRayon %}">Supprimer</a>
     <ul>
         <li>Référence rayon : {{ rayon.idRayon }} </li>
     </ul>
