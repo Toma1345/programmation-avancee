@@ -1,16 +1,51 @@
 {% extends 'monApp/base.html' %}
 
-{% block menu %}
-    <h1>{{ titremenu }}</h1>
-{% endblock %}
-
 {% block contenu %}
-    <h2>{{ rayon.nomRayon }}</h2>
-    <ul>
-        <li>Référence rayon : {{ rayon.idRayon }} </li>
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h4>{{ titremenu }}</h4>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ rayon.nomRayon }}</h5>
+        <ul class="list-unstyled">
+            <li>Référence rayon : {{ rayon.idRayon }} </li>
         <li>Nom rayon : {{ rayon.nomRayon }}</li>
-    </ul>
-    <a href="{% url 'ray-chng' rayon.idRayon %}" class="btn btn-warning mt-2">Modifier</a>
-    <a href="{% url 'sup_ray' rayon.idRayon %}" class="btn btn-danger mt-2">Supprimer</a>
-    <a href="{% url 'lst_rayons' %}" class="btn btn-info mt-2">Retour à la liste des rayons</a>
+        </ul>
+        <div class="car-footer text-center">
+             <a href="{% url 'ray-chng' rayon.idRayon %}" class="btn btn-warning mt-2">Modifier</a>
+            <a href="{% url 'sup_ray' rayon.idRayon %}" class="btn btn-danger mt-2">Supprimer</a>
+            <a href="{% url 'lst_rayons' %}" class="btn btn-info mt-2">Retour à la liste des rayons</a>
+        </div>
+    </div>
+</div>
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h4>Ce rayon contient <strong> {% if total_nb_produit %} {{total_nb_produit}} {% else %} aucun {% endif %}</strong> produit(s) pour un total de <strong>{{total_rayon|floatformat:2 }} €</strong></h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+        {% if prdts_dt %}
+            {% for data in prdts_dt %}
+                <div class="col-sm-3">
+                    <div class="card mb-2 text-center">
+                        <div class="card-header bg-info text-white">
+                        <h5 class="card-title">{{ data.produit.intituleProd }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li>Prix unitaire : {{data.prix_unitaire }} € </li>
+                                <li>Quantité : {{data.qte }} </li>
+                                <li>Total : {{ data.total_produit}} €</li>
+                            </ul>
+                            <a href="{% url 'dtl_prdt' data.produit.refProd %}" class="btn btn-primary mt-2">Détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-muted">Aucun produit trouvé pour cette catégorie.</p>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

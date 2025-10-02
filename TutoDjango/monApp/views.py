@@ -1,15 +1,22 @@
+from monApp.forms import *
+from monApp.models import *
+
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, Http404, JsonResponse
 from django.views.generic import *
-from monApp.forms import *
-from monApp.models import *
+
 from django.contrib.auth import *
 from django.contrib.auth.views import *
 from django.contrib.auth.models import *
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+from django.shortcuts import render
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.forms import BaseModelForm
-from django.db.models import Count
+from django.db.models import Count, Prefetch
 
 # def home(request, param=None):
 #     #print(dir(request))
@@ -71,7 +78,7 @@ class HomeView(TemplateView):
 
     def post(self, request, **kwargs):
         return render(request, self.template_name)
-    
+
 class AboutView(TemplateView):
     template_name = "monApp/page_home.html"
 
@@ -101,7 +108,10 @@ class ProduitListView(ListView):
     # queryset = Produit.objects.filter(refProd=2)
 
     def get_queryset(self):
-        return Produit.objects.order_by("prixUnitaireProd")
+        query = self.request.GET.get('search')
+        if query:
+            return Produit.objects.filter(intituleProd__icontains=query).select_related('categorie').select_related('statut').order_by("prixUnitaireProd")
+        return Produit.objects.select_related('categorie').select_related('statut').order_by("prixUnitaireProd")
     
     def get_context_data(self, **kwargs):
         context = super(ProduitListView, self).get_context_data(**kwargs)
@@ -150,9 +160,21 @@ class RayonsView(ListView):
     template_name = "monApp/list_rayons.html"
     context_object_name = "rayons"
 
+    def get_queryset(self):
+        return Rayon.objects.prefetch_related(
+            Prefetch("contenirR", queryset=Contenir.objects.select_related("refProd"))
+        )
+
     def get_context_data(self, **kwargs):
         context = super(RayonsView, self).get_context_data(**kwargs)
         context['titremenu'] = "Liste de mes rayons"
+        ryns_dt=[]
+        for rayon in context['rayons']:
+            total = 0
+            for contenir in rayon.contenirR.all():
+                total += contenir.refProd.prixUnitaireProd * contenir.Qte
+            ryns_dt.append({'rayon': rayon, 'total_stock': total})
+        context['ryns_dt'] = ryns_dt
         return context
     
 class RayonDetailView(DetailView):
@@ -163,6 +185,25 @@ class RayonDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(RayonDetailView, self).get_context_data(**kwargs)
         context['titremenu'] = "Détail du rayon"
+
+        prdts_dt = []
+        total_rayon = 0
+        total_nb_produit = 0
+
+        for contenir in self.object.contenirR.all():
+            total_produit = contenir.refProd.prixUnitaireProd * contenir.Qte
+            prdts_dt.append({'produit': contenir.refProd,
+                            'qte': contenir.Qte,
+                            'prix_unitaire': contenir.refProd.prixUnitaireProd,
+                            'total_produit': total_produit}
+            )
+            total_rayon += total_produit
+            total_nb_produit += contenir.Qte
+
+        context['prdts_dt'] = prdts_dt
+        context['total_rayon'] = total_rayon
+        context['total_nb_produit'] = total_nb_produit
+
         return context
     
 class StatutView(ListView):
@@ -256,6 +297,8 @@ class EmailSentView(TemplateView):
 #         form = ProduitForm()
 #     return render(request, "monApp/create_produit.html", {'form':form})
 
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')
 class ProduitCreateView(CreateView):
     model = Produit
     form_class=ProduitForm
@@ -277,7 +320,9 @@ class ProduitCreateView(CreateView):
 #     else:
 #         form = ProduitForm(instance=prdt)
 #     return render(request,'monApp/update_produit.html', {'form': form})
-    
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')    
 class ProduitUpdateView(UpdateView):
     model = Produit
     form_class = ProduitForm
@@ -286,7 +331,9 @@ class ProduitUpdateView(UpdateView):
     def form_valid(self, form:BaseModelForm) -> HttpResponse:
         prdt = form.save()
         return redirect('dtl_prdt', prdt.refProd)
-        
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')        
 class ProduitDeleteView(DeleteView):
     model = Produit
     template_name = "monApp/delete_produit.html"
@@ -294,6 +341,9 @@ class ProduitDeleteView(DeleteView):
 
 
 # Categorie
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')
 class CategorieCreateView(CreateView):
     model = Categorie
     form_class=CategorieForm
@@ -302,7 +352,9 @@ class CategorieCreateView(CreateView):
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         cat = form.save()
         return redirect('dtl_cat', cat.idCat)
-    
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')    
 class CategorieUpdateView(UpdateView):
     model = Categorie
     form_class = CategorieForm
@@ -311,13 +363,18 @@ class CategorieUpdateView(UpdateView):
     def form_valid(self, form:BaseModelForm) -> HttpResponse:
         cat = form.save()
         return redirect('dtl_cat', cat.idCat)
-        
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')        
 class CategorieDeleteView(DeleteView):
     model = Categorie
     template_name = "monApp/delete_categorie.html"
     success_url = reverse_lazy('lst_cats')
 
 # Rayon
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')
 class RayonCreateView(CreateView):
     model = Rayon
     form_class=RayonForm
@@ -326,7 +383,9 @@ class RayonCreateView(CreateView):
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         r = form.save()
         return redirect('dtl_rayon', r.idRayon)
-    
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')    
 class RayonUpdateView(UpdateView):
     model = Rayon
     form_class = RayonForm
@@ -335,13 +394,18 @@ class RayonUpdateView(UpdateView):
     def form_valid(self, form:BaseModelForm) -> HttpResponse:
         r = form.save()
         return redirect('dtl_rayon', r.idRayon)
-        
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')        
 class RayonDeleteView(DeleteView):
     model = Rayon
     template_name = "monApp/delete_rayon.html"
     success_url = reverse_lazy('lst_rayons')
 
 # Statut
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')
 class StatutCreateView(CreateView):
     model = Statut
     form_class=StatutForm
@@ -350,7 +414,9 @@ class StatutCreateView(CreateView):
     def form_valid(self, form: BaseModelForm) -> HttpResponse:
         r = form.save()
         return redirect('dtl_statut', r.idStatut)
-    
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')    
 class StatutUpdateView(UpdateView):
     model = Statut
     form_class = StatutForm
@@ -359,8 +425,14 @@ class StatutUpdateView(UpdateView):
     def form_valid(self, form:BaseModelForm) -> HttpResponse:
         r = form.save()
         return redirect('dtl_statut', r.idStatut)
-        
+
+# Ajout du décorateur sur une CBV
+@method_decorator(login_required, name='dispatch')        
 class StatutDeleteView(DeleteView):
     model = Statut
     template_name = "monApp/delete_statut.html"
     success_url = reverse_lazy('lst_sts')
+
+# @login_required(login_url='/monApp/login/')
+# def my_view(request):
+#     return render(request, 'monApp/home.html')

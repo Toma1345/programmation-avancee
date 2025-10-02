@@ -80,5 +80,9 @@
 (- Mise en forme correct des boutons de création, modification et suppression + bouton retour à la liste)
 - Nombre de produits par catégorie et nouvelle mise en forme dans détail catégorie affichant les produits associés à la catégorie
 - Nombre de produits par statuts et nouvelle mise en forme dans détail statut affichant les produits associés au statut
+- Total € de chaque rayon
+- Performance : ProduitListView & RayonListView
+- Décoration : @login_required (FBV & CBV)
+- Barre de recherche sur Produits
 
-- Reprendre page 4 : "Compliquons la suite"
+* A faire : sur status, rayons et catégories

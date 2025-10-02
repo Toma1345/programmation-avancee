@@ -28,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Personnalisation de l'URL de redirection des users non authentifiés
+LOGIN_URL = '/monApp/login'
+
 
 # Application definition
 
@@ -41,6 +44,7 @@ INSTALLED_APPS = [
     'monApp',
     'debug_toolbar',
     'django_bootstrap5',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
