@@ -1,0 +1,9 @@
+{% extends 'monApp/base.html' %}
+{% block contenu %}
+<h1> Suppression d'un produit d'un rayon </h1>
+<form action="" method="post" >
+    {% csrf_token %}
+    <p>Etes-vous sûr de vouloir supprimer l'ensemble des quantités du produit du rayon ?</p>
+    <button type="submit" class="btn btn-success mt-2">Confirmer</button>
+</form>
+{% endblock %}

@@ -84,4 +84,6 @@
 - Performance : ProduitListView & RayonListView
 - Décoration : @login_required (FBV & CBV)
 - Barre de recherche sur Produits, Statuts, Catégories, Rayons
-- ContenirCreateView
+- Ajout de la vue de création pour Contenir `ContenirCreateView` et de la page `create_contenir.html` et du formulaire `ContenirForm`
+- ***ContenirUpdateView en cours...***
+- ***ContenirDeleteView en cours...***

@@ -41,6 +41,7 @@ urlpatterns = [
     path("rayon/<pk>/delete/", views.RayonDeleteView.as_view(), name="sup_ray"),
     path("rayon/<pk>/cntnr/", views.ContenirCreateView.as_view(), name='cntnr-crt'),
     path("rayon/<pk>/updt-cntnr/", views.ContenirUpdateView.as_view(), name='cntnr-updt'),
+    path("rayon/<pk>/delete-cntnr/", views.ContenirDeleteView.as_view(), name='cntnr-sup'),
     # urls de connexion, inscription et déconnexion
     path('login/', views.ConnectView.as_view(), name='login'),
     path('register/', views.RegisterView.as_view(), name='register'),

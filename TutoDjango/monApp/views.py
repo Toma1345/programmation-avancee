@@ -459,7 +459,9 @@ class ContenirCreateView(CreateView):
         context['rayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk'))
         context['nomRayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk')).nomRayon
         return context
-    
+
+# En cours ---------------------------------------------------------------------------------------------------------- #
+
 class ContenirUpdateView(UpdateView):
     model = Contenir
     form_class = ContenirForm
@@ -467,12 +469,7 @@ class ContenirUpdateView(UpdateView):
     
     def form_valid(self, form:BaseModelForm) -> HttpResponse:
         rayon_id = self.kwargs.get('pk')
-        obj, created = Contenir.objects.get_or_create(idRayon=Rayon.objects.get(idRayon=rayon_id), refProd=form.cleaned_data['refProd'], Qte=form.cleaned_data['Qte'])
-        if created:
-            obj.Qte += form.cleaned_data['Qte']
-        else:
-            obj.Qte = form.cleaned_data['Qte']
-        obj.save()
+        Contenir.objects.update_or_create(idRayon=Rayon.objects.get(idRayon=rayon_id), refProd=form.cleaned_data['refProd'], Qte=form.cleaned_data['Qte'])
         return redirect('dtl_rayon', rayon_id)
     
     def get_context_data(self, **kwargs):
@@ -480,3 +477,12 @@ class ContenirUpdateView(UpdateView):
         context['rayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk'))
         context['nomRayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk')).nomRayon
         return context
+    
+class ContenirDeleteView(DeleteView):
+    model = Contenir
+    form_class = ContenirForm
+    template_name = "monApp/delete_contenir.html"
+    success_url = reverse_lazy('lst_rayons')
+    
+
+# ---------------------------------------------------------------------------------------------------------------------- #
