@@ -83,6 +83,5 @@
 - Total € de chaque rayon
 - Performance : ProduitListView & RayonListView
 - Décoration : @login_required (FBV & CBV)
-- Barre de recherche sur Produits
-
-* A faire : sur status, rayons et catégories
+- Barre de recherche sur Produits, Statuts, Catégories, Rayons
+- ContenirCreateView

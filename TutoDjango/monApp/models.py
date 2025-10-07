@@ -38,11 +38,10 @@ class Rayon(models.Model):
 class Contenir(models.Model):
     refProd = models.ForeignKey(Produit, on_delete=models.CASCADE, related_name="contenirP")
     idRayon = models.ForeignKey(Rayon, on_delete=models.CASCADE, related_name="contenirR")
-    Qte = models.IntegerField()
+    Qte = models.PositiveIntegerField()
 
     class Meta:
-        constraints = [models.UniqueConstraint(fields=['refProd', 'idRayon'], name='contenir')
-        ]
+        constraints = [models.UniqueConstraint(fields=['refProd', 'idRayon'], name='contenir')]
 
     def __str__(self):
         return self.refProd.intituleProd + " dans " + self.idRayon.nomRayon + " : " + str(self.Qte) + " unités"

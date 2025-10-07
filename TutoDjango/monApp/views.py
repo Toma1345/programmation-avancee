@@ -134,6 +134,9 @@ class CategorieView(ListView):
     context_object_name = "cats"
 
     def get_queryset(self):
+        query = self.request.GET.get('search')
+        if query:
+            return Categorie.objects.filter(nomCat__icontains=query).annotate(nb_produits=Count('produits'))
         return Categorie.objects.annotate(nb_produits=Count('produits'))
 
     def get_context_data(self, **kwargs):
@@ -159,11 +162,12 @@ class RayonsView(ListView):
     model = Rayon
     template_name = "monApp/list_rayons.html"
     context_object_name = "rayons"
-
+        
     def get_queryset(self):
-        return Rayon.objects.prefetch_related(
-            Prefetch("contenirR", queryset=Contenir.objects.select_related("refProd"))
-        )
+        query = self.request.GET.get('search')
+        if query:
+            return Rayon.objects.filter(nomRayon__icontains=query).prefetch_related(Prefetch("contenirR", queryset=Contenir.objects.select_related("refProd")))
+        return Rayon.objects.prefetch_related(Prefetch("contenirR", queryset=Contenir.objects.select_related("refProd")))
 
     def get_context_data(self, **kwargs):
         context = super(RayonsView, self).get_context_data(**kwargs)
@@ -212,6 +216,9 @@ class StatutView(ListView):
     context_object_name = "stats"
 
     def get_queryset(self):
+        query = self.request.GET.get('search')
+        if query:
+            return Statut.objects.filter(libelle__icontains=query).annotate(nb_produits=Count('produitStatut'))
         return Statut.objects.annotate(nb_produits=Count('produitStatut'))
 
     def get_context_data(self, **kwargs):
@@ -436,3 +443,40 @@ class StatutDeleteView(DeleteView):
 # @login_required(login_url='/monApp/login/')
 # def my_view(request):
 #     return render(request, 'monApp/home.html')
+
+class ContenirCreateView(CreateView):
+    model = Contenir
+    form_class = ContenirForm
+    template_name = "monApp/create_contenir.html"
+    
+    def form_valid(self, form:BaseModelForm) -> HttpResponse:
+        rayon_id = self.kwargs.get('pk')
+        Contenir.objects.get_or_create(idRayon=Rayon.objects.get(idRayon=rayon_id), refProd=form.cleaned_data['refProd'], Qte=form.cleaned_data['Qte'])
+        return redirect('dtl_rayon', rayon_id)
+    
+    def get_context_data(self, **kwargs):
+        context = super(ContenirCreateView, self).get_context_data(**kwargs)
+        context['rayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk'))
+        context['nomRayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk')).nomRayon
+        return context
+    
+class ContenirUpdateView(UpdateView):
+    model = Contenir
+    form_class = ContenirForm
+    template_name = "monApp/update_contenir.html"
+    
+    def form_valid(self, form:BaseModelForm) -> HttpResponse:
+        rayon_id = self.kwargs.get('pk')
+        obj, created = Contenir.objects.get_or_create(idRayon=Rayon.objects.get(idRayon=rayon_id), refProd=form.cleaned_data['refProd'], Qte=form.cleaned_data['Qte'])
+        if created:
+            obj.Qte += form.cleaned_data['Qte']
+        else:
+            obj.Qte = form.cleaned_data['Qte']
+        obj.save()
+        return redirect('dtl_rayon', rayon_id)
+    
+    def get_context_data(self, **kwargs):
+        context = super(ContenirUpdateView, self).get_context_data(**kwargs)
+        context['rayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk'))
+        context['nomRayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk')).nomRayon
+        return context

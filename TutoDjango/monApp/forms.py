@@ -26,3 +26,8 @@ class StatutForm(forms.ModelForm):
     class Meta:
         model = Statut
         fields = '__all__'
+        
+class ContenirForm(forms.ModelForm):
+    class Meta:
+        model = Contenir
+        fields = ['refProd', 'Qte']
