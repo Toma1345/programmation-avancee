@@ -85,5 +85,8 @@
 - Décoration : @login_required (FBV & CBV)
 - Barre de recherche sur Produits, Statuts, Catégories, Rayons
 - Ajout de la vue de création pour Contenir `ContenirCreateView` et de la page `create_contenir.html` et du formulaire `ContenirForm`
-- ***ContenirUpdateView en cours...***
-- ***ContenirDeleteView en cours...***
+- Ajout de la vue de modification pour Contenir permettant de modifier la quantité du produit dans un rayon.
+- Ajout de la vue demandant confirmation de l'ensemble des quantités d'un produit.
+
+## TP4
+- Test pour Catégorie (Model, Form)

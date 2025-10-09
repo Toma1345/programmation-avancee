@@ -446,6 +446,7 @@ class StatutDeleteView(DeleteView):
 # def my_view(request):
 #     return render(request, 'monApp/home.html')
 
+@method_decorator(login_required, name='dispatch')  
 class ContenirCreateView(CreateView):
     model = Contenir
     form_class = ContenirForm
@@ -462,6 +463,7 @@ class ContenirCreateView(CreateView):
         context['nomRayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk')).nomRayon
         return context
 
+@method_decorator(login_required, name='dispatch')  
 class ContenirUpdateView(UpdateView):
     model = Contenir
     form_class = ContenirForm
@@ -476,6 +478,7 @@ class ContenirUpdateView(UpdateView):
             contenir.save()
         return redirect('dtl_rayon', contenir.idRayon.idRayon)
 
+@method_decorator(login_required, name='dispatch')  
 class ContenirDeleteView(DeleteView):
     model = Contenir
     template_name = "monApp/delete_contenir.html"
