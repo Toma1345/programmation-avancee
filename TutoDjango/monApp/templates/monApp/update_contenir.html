@@ -1,10 +1,9 @@
 {% extends 'monApp/base.html' %}
 {% block contenu %}
-<h1>Mise à jour d'un produit du rayon {{ nomRayon }}</h1>
+<h1>Mise à jour d'un produit du rayon {{ object.rayons.nomRayon }}</h1>
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Valider</button>
-    <a href="{% url 'dtl_rayon' rayon.pk %}" class="btn btn-info">Annuler</a>
-</form>
+    <button type="submit" class="btn btn-success">Mettre à jour</button>
+   </form>
 {% endblock %}

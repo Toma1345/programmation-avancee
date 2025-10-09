@@ -200,7 +200,8 @@ class RayonDetailView(DetailView):
             prdts_dt.append({'produit': contenir.refProd,
                             'qte': contenir.Qte,
                             'prix_unitaire': contenir.refProd.prixUnitaireProd,
-                            'total_produit': total_produit}
+                            'total_produit': total_produit,
+                            'contenir':contenir}
             )
             total_rayon += total_produit
             total_nb_produit += contenir.Qte
@@ -461,29 +462,25 @@ class ContenirCreateView(CreateView):
         context['nomRayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk')).nomRayon
         return context
 
-# En cours ---------------------------------------------------------------------------------------------------------- #
-
 class ContenirUpdateView(UpdateView):
     model = Contenir
     form_class = ContenirForm
     template_name = "monApp/update_contenir.html"
-    
-    def form_valid(self, form:BaseModelForm) -> HttpResponse:
-        rayon_id = self.kwargs.get('pk')
-        Contenir.objects.update_or_create(idRayon=Rayon.objects.get(idRayon=rayon_id), refProd=form.cleaned_data['refProd'], Qte=form.cleaned_data['Qte'])
-        return redirect('dtl_rayon', rayon_id)
-    
-    def get_context_data(self, **kwargs):
-        context = super(ContenirUpdateView, self).get_context_data(**kwargs)
-        context['rayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk'))
-        context['nomRayon'] = Rayon.objects.get(idRayon=self.kwargs.get('pk')).nomRayon
-        return context
-    
+    pk_url_kwarg = 'contenir_pk'
+
+    def form_valid(self, form):
+        contenir = form.save(commit=False)
+        if contenir.Qte <= 0:
+            contenir.delete()
+        else:
+            contenir.save()
+        return redirect('dtl_rayon', contenir.idRayon.idRayon)
+
 class ContenirDeleteView(DeleteView):
     model = Contenir
-    form_class = ContenirForm
     template_name = "monApp/delete_contenir.html"
-    success_url = reverse_lazy('lst_rayons')
-    
+    pk_url_kwarg = 'contenir_pk'
 
-# ---------------------------------------------------------------------------------------------------------------------- #
+    def get_success_url(self):
+        rayon = self.object.idRayon
+        return reverse_lazy('dtl_rayon', args=[rayon.idRayon])

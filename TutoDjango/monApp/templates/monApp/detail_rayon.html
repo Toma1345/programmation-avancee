@@ -37,7 +37,11 @@
                                 <li>Quantité : {{data.qte }} </li>
                                 <li>Total : {{ data.total_produit}} €</li>
                             </ul>
-                            <a href="{% url 'dtl_prdt' data.produit.refProd %}" class="btn btn-primary mt-2">Détails</a>
+                            <div class="text-center mb-4">
+                                <a href="{% url 'dtl_prdt' data.produit.refProd %}" class="btn btn-primary mt-2">Détails</a>
+                                <a href="{% url 'cntnr-updt' rayon.idRayon data.contenir.id %}" class="btn btn-info">Modifier la quantité du produit</a>
+                                <a href="{% url 'cntnr-sup' rayon.idRayon data.contenir.id %}" class="btn btn-danger">Supprimer le produit du rayon</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -49,8 +53,6 @@
     </div>
     <div class="text-center mb-4">
         <a href="{% url 'cntnr-crt' rayon.idRayon %}" class="btn btn-success">Ajouter un produit</a>
-        <a href="{% url 'cntnr-updt' rayon.idRayon %}" class="btn btn-info">Modifier un produit</a>
-        <a href="{% url 'cntnr-sup' rayon.idRayon %}" class="btn btn-danger">Supprimer un produit</a>
     </div>
 </div>
 
