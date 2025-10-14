@@ -89,4 +89,9 @@
 - Ajout de la vue demandant confirmation de l'ensemble des quantités d'un produit.
 
 ## TP4
-- Test pour Catégorie (Model, Form)
+- Test pour Catégorie (Model, Form, Urls, View)
+- Résultat du coverage à la fin des tests pour ``Contenir`` :  
+  ![Coverage_result](<Coverage_v1 - Avec Categorie.png>)
+- Résultat du coverage à la fin des tests pour ``Contenir`` (en format HTML) : [ici](TutoDjango/htmlcov/index.html)
+
+- Début des tests pour ``Produit``

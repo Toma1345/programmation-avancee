@@ -3,7 +3,7 @@ from monApp.models import Categorie
 from monApp.forms import CategorieForm
 
 class CategorieFormTest(TestCase):
-    def test_form_valid(self):
+    def test_form_valid_data(self):
         form = CategorieForm(data = {'nomCat': "CategoriePourTest"})
         self.assertTrue(form.is_valid())
 
