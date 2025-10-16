@@ -18,6 +18,7 @@ class ProduitUrlsTest(TestCase):
             categorie=self.categorie,
             statut=self.statut
         )
+        # Nécessaire pour les tests des vues CRUD (qui ont @login_required)
         self.user = User.objects.create_user(username='testuser', password='secret')
         self.client.login(username='testuser', password='secret')
 
@@ -46,6 +47,7 @@ class ProduitUrlsTest(TestCase):
         self.assertEqual(resolve(url).view_name, 'sup_prdt')
         self.assertEqual(resolve(url).func.view_class, ProduitDeleteView)
 
+    # Test de réponse simple pour les vues qui nécessitent une connexion
     def test_produit_create_response_code_OK(self):
         response = self.client.get(reverse('crt-prdt'))
         self.assertEqual(response.status_code, 200)
@@ -55,5 +57,5 @@ class ProduitUrlsTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_produit_delete_response_code_OK(self):
-        response = self.client.get(reverse('dtl_prdt', args=[self.produit.refProd]))
+        response = self.client.get(reverse('sup_prdt', args=[self.produit.refProd]))
         self.assertEqual(response.status_code, 200)

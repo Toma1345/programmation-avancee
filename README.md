@@ -93,5 +93,6 @@
 - Résultat du coverage à la fin des tests pour ``Contenir`` :  
   ![Coverage_result](<Coverage_v1 - Avec Categorie.png>)
 - Résultat du coverage à la fin des tests pour ``Contenir`` (en format HTML) : [ici](TutoDjango/htmlcov/index.html)
-
-- Début des tests pour ``Produit``
+- Tests pour ``Produit`` (Form, Model, Views, Url)
+Resultat du coverage après l'ajout des tests pour produit :  
+![Coverage_result](<Coverage_v2 - Après Produit.png>)

@@ -81,7 +81,7 @@ class HomeView(TemplateView):
         return render(request, self.template_name)
 
 class AboutView(TemplateView):
-    template_name = "monApp/page_home.html"
+    template_name = "monApp/about.html"
 
     def get_context_data(self, **kwargs):
         context = super(AboutView, self).get_context_data(**kwargs)
